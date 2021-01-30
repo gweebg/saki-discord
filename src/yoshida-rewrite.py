@@ -6,7 +6,7 @@ import time
 
 client = commands.Bot(command_prefix = ".")
 client.remove_command('help')
-token = discord_keys._keys
+token = discord_keys.key
 
 @client.command()
 async def load(ctx, extension):
