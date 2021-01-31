@@ -12,38 +12,83 @@ def format_tags(tags):
     for elem in tags:
         formated_tags += '['+elem+'] '
 
-def verify_date(date):
-    syntax = ["/",".","-"]
-    data = list(date)
+def checkRange(l,h,num):
+   if l <= num <= h:
+       return True
+   else:
+       return False
 
-    if 1 < int(data[0] + data[1]) < 32 and 1 < int(data[3] + data[4]) < 13:
-        if '/' in date:
-            clean_date = date.replace('/','')
-        elif '.' in date:
-            clean_date = date.replace('.','')
-        elif '-' in date: 
-            clean_date = date.replace('-','')
-        else: 
-            return False
-            
-        if clean_date.isdigit() == True:
-            if len(date) == 8: 
-                counter = 0
-                for char in date:
-                    if char in syntax:
-                        counter += 1
-                    else:
-                        pass
-                if counter == 2:
+def verify_date(data): 
+    date = list(data) # 13/07/02 -> ["1","3","/","0","7","/","0","2"]
+    date = list(filter(lambda a: a.isdigit() ,date)) # ["1","3","/","0","7","/","0","2"] -> ["1","3","0","7","0","2"]
+
+    if len(date) != 6: 
+        print('data com formato inválido') # debug
+        raise Exception('Invalid Format')
+    else: 
+        pass
+
+    day = int(date[0] + date[1])
+    month = int(date[2] + date[3])
+    year = int(date[4] + date[5]) 
+
+    date = [day,month,year] # debug
+    # print(date) # debug 
+    
+    high = [1,3,5,7,8,10,12] # months with 31 days
+
+    if month in high: 
+        
+        if checkRange(1,31,day) : 
+            if checkRange(1,12,month):
+                if checkRange(0,99,year):
+                    print("data válida")
                     return True
                 else: 
-                    return False
-            else: 
-                return False
-        else: 
-            return False
-    else:
-        return False
+                    print('ano fora dos limites | 31 ano') # debug
+                    raise Exception('Invalid Format')
+            else:
+                print('mes fora dos limites | 31 mes ') # debug
+                raise Exception('Invalid Format')
+        else:
+            print('dia fora dos limites | 31 dia') # debug
+            raise Exception('Invalid Format')
+
+    elif (month == 2): 
+
+        if checkRange(1,29,day): 
+            if checkRange(1,12,month):
+                if checkRange(0,99,year):
+                    print("data válida")
+                    return True
+                else: 
+                    print('dia fora dos limites | 31') # debug
+                    raise Exception('Invalid Format')
+            else:
+                print('dia fora dos limites | fev') # debug
+                raise Exception('Invalid Format')
+        else:
+            print('dia fora dos limites | fev') # debug
+            raise Exception('Invalid Format')
+    
+    else: 
+
+        if checkRange(1,30,day): 
+            if checkRange(1,12,month):
+                if checkRange(0,99,year):
+                    print("data válida")
+                    return True
+                else: 
+                    print('dia fora dos limites | 31') # debug
+                    raise Exception('Invalid Format')
+            else:
+                print('dia fora dos limites | fev') # debug
+                raise Exception('Invalid Format')
+        else:
+            print('dia fora dos limites | fev') # debug
+            raise Exception('Invalid Format')
+
+    print(date) # debug 
         
 class Main(commands.Cog):
 
@@ -88,22 +133,17 @@ class Main(commands.Cog):
     @commands.command(aliases = ['h'])
     async def hentai(self, ctx, arg):
         global formated_tags
-        if verify_date(arg) == True:
-        
-            if '/' in arg:
-                special_number = arg.replace('/','')
-            elif '.' in arg:
-                special_number = arg.replace('.','')
-            elif '-' in arg: 
-                special_number = arg.replace('-','')
-            else: 
-                pass
 
-            if special_number[0] == '0':
-                special_number = special_number[1:]
-            
+        try:
+            verify_date(arg) 
+
+            # formatar o arg (dd/mm/yy)
+            special_number = (''.join(list(filter(lambda a: a.isdigit() ,arg)))) # "ddmmyy" 
+
+            if special_number[0] == '0': 
+                special_number = int(special_number[1:]) # 01/02/13 -> 10213
             else: 
-                pass
+                special_number = int(special_number) # 11/02/13 -> 110213
 
             try:
                 doujin : dict = nhentai._get_doujin(id = special_number)
@@ -152,13 +192,13 @@ class Main(commands.Cog):
                     embed.set_author(name="Saki Yoshida", url="https://github.com/gweebg/saki-bot", icon_url="https://pbs.twimg.com/profile_images/1040256267007090688/ZrXrHE33_400x400.jpg")
 
                     await ctx.send(embed=embed)
-        else:        
+
+        except: 
             embed = discord.Embed(title="Date format unvalid! ", colour=discord.Colour.red(), description="The date format you submited is not valid. Check .help for more information!")
             embed.set_author(name="Saki Yoshida", url="https://github.com/gweebg/saki-bot", icon_url="https://pbs.twimg.com/profile_images/1040256267007090688/ZrXrHE33_400x400.jpg")
 
             await ctx.send(embed=embed)
-
-
+            
     @commands.command(aliases = ['s'])
     async def search(self, ctx, id):
         try:
