@@ -33,7 +33,6 @@ def verify_date(data):
     year = int(date[4] + date[5]) 
 
     date = [day,month,year] # debug
-    # print(date) # debug 
     
     high = [1,3,5,7,8,10,12] # months with 31 days
 
@@ -62,10 +61,10 @@ def verify_date(data):
                     print("data válida")
                     return True
                 else: 
-                    print('dia fora dos limites | 31') # debug
+                    print('ano fora dos limites | fev') # debug
                     raise Exception('Invalid Format')
             else:
-                print('dia fora dos limites | fev') # debug
+                print('mes fora dos limites | fev') # debug
                 raise Exception('Invalid Format')
         else:
             print('dia fora dos limites | fev') # debug
@@ -79,13 +78,13 @@ def verify_date(data):
                     print("data válida")
                     return True
                 else: 
-                    print('dia fora dos limites | 31') # debug
+                    print('dia fora dos limites | 30') # debug
                     raise Exception('Invalid Format')
             else:
-                print('dia fora dos limites | fev') # debug
+                print('mes fora dos limites | 30') # debug
                 raise Exception('Invalid Format')
         else:
-            print('dia fora dos limites | fev') # debug
+            print('ano fora dos limites | 30') # debug
             raise Exception('Invalid Format')
 
     print(date) # debug 
@@ -98,7 +97,7 @@ class Main(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Yoshida-san is ready to be used!")
+        print("Main online")
 
     @commands.has_role("NSFW")
 
@@ -198,7 +197,7 @@ class Main(commands.Cog):
             embed.set_author(name="Saki Yoshida", url="https://github.com/gweebg/saki-bot", icon_url="https://pbs.twimg.com/profile_images/1040256267007090688/ZrXrHE33_400x400.jpg")
 
             await ctx.send(embed=embed)
-            
+
     @commands.command(aliases = ['s'])
     async def search(self, ctx, id):
         try:
