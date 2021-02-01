@@ -1,8 +1,10 @@
 import os
+import time
+
 import discord
 from discord.ext import commands
+
 import discord_keys
-import time
 
 client = commands.Bot(command_prefix = ".")
 client.remove_command('help')

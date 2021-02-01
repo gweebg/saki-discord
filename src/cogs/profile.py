@@ -1,14 +1,15 @@
+import os.path
+import random
+import string
+
 import discord
+import xlrd
+import xlwt
 from discord.ext import commands
 from NHentai import NHentai
-import xlrd
-import xlwt 
-import random
-import os.path
-import string 
-from xlwt import Workbook 
 from xlrd import open_workbook
 from xlutils.copy import copy
+from xlwt import Workbook
 
 # a implementar: 
 # .tag => atribui ao user uma tag a um user ao fim de 3x seguidas a sair essa tag tem direito a role.

@@ -1,8 +1,9 @@
+import datetime
+import string
+
 import discord
 from discord.ext import commands
 from NHentai import NHentai
-import string
-import datetime
 
 nhentai = NHentai()
 formated_tags = ""
