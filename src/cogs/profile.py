@@ -42,9 +42,8 @@ class Profile(commands.Cog):
     async def on_ready(self):
         print("Profile online\n")
     
-    # Tag | Role command.
-    @commands.command(aliases = ['role'])
-    async def tag(self, ctx):
+    @commands.command()
+    async def role(self, ctx):
 
         user_id = ctx.message.author.id # Id of the user who called the command.
         author = ctx.message.author # Name of the user who called the command.
