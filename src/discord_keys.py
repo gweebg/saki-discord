@@ -1,3 +1,3 @@
-key = 'NzcwNjI4ODE5NDI0OTAzMTg5.X5gWBA.LWE_WixazRRdtAGWT4BLoTJiWss'
+key = '...'
 # 30/01/2021
 
